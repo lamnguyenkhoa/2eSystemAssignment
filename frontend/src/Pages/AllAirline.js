@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col } from 'reactstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 import AirlineTable from '../Components/AirlineTable';
 import { getAirlines } from '../api';
 

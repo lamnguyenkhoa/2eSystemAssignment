@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import { Table } from 'react-bootstrap';
 
-class AirlineTable extends Component {
+class AirportTable extends Component {
   render() {
     const items = this.props.items.map((item) => {
       return (
         <tr key={item.id}>
           <th scope="row">{item.id}</th>
           <td>{item.name}</td>
+          <td>{item.latitude}</td>
+          <td>{item.longitude}</td>
           <td>{item.country}</td>
         </tr>
       );
@@ -18,7 +20,9 @@ class AirlineTable extends Component {
         <thead>
           <tr>
             <th>ID</th>
-            <th>Airline name</th>
+            <th>Airport name</th>
+            <th>Latitude</th>
+            <th>Longitude</th>
             <th>Country</th>
           </tr>
         </thead>
@@ -28,4 +32,4 @@ class AirlineTable extends Component {
   }
 }
 
-export default AirlineTable;
+export default AirportTable;

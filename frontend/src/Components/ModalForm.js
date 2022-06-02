@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Modal, ModalHeader, ModalBody } from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody } from 'react-bootstrap';
 import AddEditForm from './AddEditForm';
 
 class ModalForm extends Component {
