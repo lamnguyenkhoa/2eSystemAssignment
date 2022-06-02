@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
-import AirlineTable from '../Components/AirlineTable';
+import { Container, Row, Col, Table } from 'react-bootstrap';
 import { getAirlines } from '../api';
+import FormModal from '../Components/FormModal';
+import DeleteModal from '../Components/DeleteModal';
 
 function AllAirline() {
   const [airlines, setAirlines] = useState([]);
@@ -14,14 +15,41 @@ function AllAirline() {
 
   return (
     <Container className="App">
-      <Row>
+      <Row style={{ margin: '5vh 0' }}>
         <Col>
-          <h1 style={{ margin: '20px 0' }}>All airlines</h1>
+          <div style={{ display: 'flex', gap: '5vw', alignItems: 'center' }}>
+            <h1>All airlines</h1>
+            <FormModal formType="Add" itemType="Airline" />
+          </div>
         </Col>
       </Row>
       <Row>
         <Col>
-          <AirlineTable items={airlines} />
+          <Table responsive hover>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Country</th>
+              </tr>
+            </thead>
+            <tbody>
+              {/* Map each country datarow  */}
+              {airlines.map((item) => (
+                <tr key={item.id}>
+                  <th scope="row">{item.id}</th>
+                  <td>{item.name}</td>
+                  <td>{item.country}</td>
+                  <td>
+                    <FormModal formType="Edit" itemType="Airline" item={item} />
+                  </td>
+                  <td>
+                    <DeleteModal itemType="Airline" item={item} />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
         </Col>
       </Row>
     </Container>
