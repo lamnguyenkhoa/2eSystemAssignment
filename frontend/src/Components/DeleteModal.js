@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import { deleteCountryById, deleteAirlineById, deleteAirportsById, deleteFlightById } from '../api';
 
+/*
+This is a popup that confirm the user intention to delete an item
+from the its table row.
+*/
 function DeleteModal(props) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -20,7 +24,11 @@ function DeleteModal(props) {
         window.location.reload();
       } else {
         // Failure
-        alert('Unable to delete this ' + props.itemType);
+        alert(
+          'Unable to delete this ' +
+            props.itemType +
+            '. There maybe some other database entries depend on it.'
+        );
       }
     });
     setShow(false);

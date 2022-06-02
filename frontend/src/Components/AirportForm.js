@@ -21,6 +21,7 @@ function AirportForm(props) {
   });
 
   const handleGoogleMapOnClick = (e) => {
+    // Format to 6 decimals place of their format in MySQL
     let formatLat = e.latLng.lat().toFixed(6);
     let formatLng = e.latLng.lng().toFixed(6);
     setAirport({ ...airport, longitude: formatLng, latitude: formatLat });
@@ -44,6 +45,7 @@ function AirportForm(props) {
     const form = event.currentTarget;
     event.preventDefault();
     if (form.checkValidity() === false) {
+      // Failure
       event.stopPropagation();
     } else {
       // Success
@@ -56,6 +58,13 @@ function AirportForm(props) {
     console.log(airport);
   };
 
+  /* 
+  If add new airport, the `defaultCountryOption` will force the user
+  to choose a country, (prevent the first country in the dropdown
+  list to be selected as default).
+  The `defaultGoogleMapZoomLevel` set to 1 will help user find
+  their location on map easier.
+  */
   let defaultCountryOption = '';
   let defaultGoogleMapZoomLevel = 15;
   if (props.formType === 'Add') {
@@ -100,7 +109,7 @@ function AirportForm(props) {
         >
           {defaultCountryOption}
           {countries.map((country, index) => (
-            <option key={index} value={String(country.id)}>
+            <option key={index} value={country.id}>
               {country.name} ({country.iso_code})
             </option>
           ))}

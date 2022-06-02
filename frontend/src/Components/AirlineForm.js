@@ -26,6 +26,7 @@ function AirlineForm(props) {
     const form = event.currentTarget;
     event.preventDefault();
     if (form.checkValidity() === false) {
+      // Failure
       event.stopPropagation();
     } else {
       // Success
@@ -38,8 +39,12 @@ function AirlineForm(props) {
     console.log(airline);
   };
 
+  /* 
+  If add new airline, the `defaultCountryOption` will force the user
+  to choose a country, (prevent the first country in the dropdown
+  list to be selected as default).
+  */
   let defaultCountryOption = '';
-
   if (props.formType === 'Add')
     defaultCountryOption = (
       <option value="" disabled defaultValue={true}>
@@ -76,7 +81,7 @@ function AirlineForm(props) {
         >
           {defaultCountryOption}
           {countries.map((country, index) => (
-            <option key={index} value={String(country.id)}>
+            <option key={index} value={country.id}>
               {country.name} ({country.iso_code})
             </option>
           ))}

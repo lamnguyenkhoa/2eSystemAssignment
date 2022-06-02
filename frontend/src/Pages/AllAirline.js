@@ -17,7 +17,7 @@ function AllAirline() {
     <Container className="App">
       <Row style={{ margin: '5vh 0' }}>
         <Col>
-          <div style={{ display: 'flex', gap: '5vw', alignItems: 'center' }}>
+          <div style={{ display: 'flex', gap: '3vw', alignItems: 'center' }}>
             <h1>All airlines</h1>
             <FormModal formType="Add" itemType="Airline" />
           </div>
@@ -34,7 +34,7 @@ function AllAirline() {
               </tr>
             </thead>
             <tbody>
-              {/* Map each country datarow  */}
+              {/* Map each airline datarow  */}
               {airlines.map((item) => (
                 <tr key={item.id}>
                   <th scope="row">{item.id}</th>
