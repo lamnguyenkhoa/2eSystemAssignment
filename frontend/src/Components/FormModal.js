@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import CountryForm from './CountryForm';
 import AirlineForm from './AirlineForm';
+import AirportForm from './AirportForm';
 
 function FormModal(props) {
   const [show, setShow] = useState(false);
@@ -13,6 +14,8 @@ function FormModal(props) {
     form = <CountryForm setShow={setShow} item={props.item} formType={props.formType} />;
   else if (props.itemType === 'Airline')
     form = <AirlineForm setShow={setShow} item={props.item} formType={props.formType} />;
+  else if (props.itemType === 'Airport')
+    form = <AirportForm setShow={setShow} item={props.item} formType={props.formType} />;
 
   let button = '';
   if (props.formType === 'Add')

@@ -31,7 +31,8 @@ Airport.create = async (newAirport, cb) => {
 };
 
 Airport.findAll = (cb) => {
-  let query = 'SELECT a.id, a.name, a.latitude, a.longitude, c.name as country FROM airport as a';
+  let query =
+    'SELECT a.id, a.name, a.latitude, a.longitude, c.id as country_id, c.name as country FROM airport as a';
   query += ' INNER JOIN country as c ON a.country_id = c.id';
   promisifiedQuery(query, (err, res) => {
     if (err) {
@@ -45,7 +46,8 @@ Airport.findAll = (cb) => {
 };
 
 Airport.findById = (id, cb) => {
-  let query = 'SELECT a.id, a.name, a.latitude, a.longitude, c.name as country FROM airport as a';
+  let query =
+    'SELECT a.id, a.name, a.latitude, a.longitude, c.id as country_id, c.name as country FROM airport as a';
   query += ' INNER JOIN country as c ON a.country_id = c.id';
   query += ' WHERE a.id = ?';
   promisifiedQuery(query, [id], (err, res) => {

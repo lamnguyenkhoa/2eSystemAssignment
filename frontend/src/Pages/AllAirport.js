@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
-import AirportTable from '../Components/AirportTable';
+import { Container, Row, Col, Table } from 'react-bootstrap';
 import { getAirports } from '../api';
+import FormModal from '../Components/FormModal';
+import DeleteModal from '../Components/DeleteModal';
 
 function AllAirport() {
   const [airports, setAirports] = useState([]);
@@ -14,14 +15,45 @@ function AllAirport() {
 
   return (
     <Container className="App">
-      <Row>
+      <Row style={{ margin: '5vh 0' }}>
         <Col>
-          <h1 style={{ margin: '20px 0' }}>All airports</h1>
+          <div style={{ display: 'flex', gap: '5vw', alignItems: 'center' }}>
+            <h1>All airports</h1>
+            <FormModal formType="Add" itemType="Airport" />
+          </div>
         </Col>
       </Row>
       <Row>
         <Col>
-          <AirportTable items={airports} />
+          <Table responsive hover>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Airport name</th>
+                <th>Latitude</th>
+                <th>Longitude</th>
+                <th>Country</th>
+              </tr>
+            </thead>
+            <tbody>
+              {/* Map each country datarow  */}
+              {airports.map((item) => (
+                <tr key={item.id}>
+                  <th scope="row">{item.id}</th>
+                  <td>{item.name}</td>
+                  <td>{item.latitude}</td>
+                  <td>{item.longitude}</td>
+                  <td>{item.country}</td>
+                  <td>
+                    <FormModal formType="Edit" itemType="Airport" item={item} />
+                  </td>
+                  <td>
+                    <DeleteModal itemType="Airport" item={item} />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
         </Col>
       </Row>
     </Container>

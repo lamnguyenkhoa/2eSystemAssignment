@@ -1,5 +1,19 @@
 const axios = require('axios');
 
+// Due to backend assume every attribute of the sent body is string
+// we need to make sure that
+function toString(o) {
+  Object.keys(o).forEach((k) => {
+    if (typeof o[k] === 'object') {
+      return toString(o[k]);
+    }
+
+    o[k] = '' + o[k];
+  });
+
+  return o;
+}
+
 /*=================== COUNTRIES ==================*/
 
 export function getCountries() {
@@ -9,12 +23,12 @@ export function getCountries() {
 
 export function addCountry(country) {
   let endpoint = '/api/country';
-  return axios.post(endpoint, country).then((res) => res.data);
+  return axios.post(endpoint, toString(country)).then((res) => res.data);
 }
 
 export function updateCountryById(country, id) {
   let endpoint = '/api/country/' + id;
-  return axios.put(endpoint, country).then((res) => res.data);
+  return axios.put(endpoint, toString(country)).then((res) => res.data);
 }
 
 export function deleteCountryById(id) {
@@ -31,12 +45,12 @@ export function getAirlines() {
 
 export function addAirline(airline) {
   let endpoint = '/api/airline';
-  return axios.post(endpoint, airline).then((res) => res.data);
+  return axios.post(endpoint, toString(airline)).then((res) => res.data);
 }
 
 export function updateAirlineById(airline, id) {
   let endpoint = '/api/airline/' + id;
-  return axios.put(endpoint, airline).then((res) => res.data);
+  return axios.put(endpoint, toString(airline)).then((res) => res.data);
 }
 
 export function deleteAirlineById(id) {
@@ -53,12 +67,12 @@ export function getAirports() {
 
 export function addAirports(airport) {
   let endpoint = '/api/airport';
-  return axios.post(endpoint, airport).then((res) => res.data);
+  return axios.post(endpoint, toString(airport)).then((res) => res.data);
 }
 
 export function updateAirportsById(airport, id) {
   let endpoint = '/api/airport/' + id;
-  return axios.put(endpoint, airport).then((res) => res.data);
+  return axios.put(endpoint, toString(airport)).then((res) => res.data);
 }
 
 export function deleteAirportsById(id) {
@@ -75,12 +89,12 @@ export function getFlights() {
 
 export function addFlight(flight) {
   let endpoint = '/api/flight';
-  return axios.post(endpoint, flight).then((res) => res.data);
+  return axios.post(endpoint, toString(flight)).then((res) => res.data);
 }
 
 export function updateFlightById(flight, id) {
   let endpoint = '/api/flight/' + id;
-  return axios.put(endpoint, flight).then((res) => res.data);
+  return axios.put(endpoint, toString(flight)).then((res) => res.data);
 }
 
 export function deleteFlightById(id) {

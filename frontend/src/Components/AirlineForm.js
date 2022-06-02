@@ -59,7 +59,7 @@ function AirlineForm(props) {
           onChange={(e) => {
             handleChange('name', e.target.value);
           }}
-          required={true}
+          required
         />
       </Form.Group>
 
