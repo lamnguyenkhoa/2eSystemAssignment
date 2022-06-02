@@ -11,6 +11,10 @@ const Airport = function (airport) {
   this.longitude = airport.longitude;
 };
 
+let getQuery = 'SELECT a.id, a.name, a.latitude, a.longitude,';
+getQuery += ' c.id as country_id, c.name as country FROM airport as a';
+getQuery += ' INNER JOIN country as c ON a.country_id = c.id';
+
 Airport.create = async (newAirport, cb) => {
   let err = await checkIfInvalid(newAirport, null);
   if (err) {
@@ -31,10 +35,7 @@ Airport.create = async (newAirport, cb) => {
 };
 
 Airport.findAll = (cb) => {
-  let query =
-    'SELECT a.id, a.name, a.latitude, a.longitude, c.id as country_id, c.name as country FROM airport as a';
-  query += ' INNER JOIN country as c ON a.country_id = c.id';
-  promisifiedQuery(query, (err, res) => {
+  promisifiedQuery(getQuery, (err, res) => {
     if (err) {
       console.log('Error when get all airports:', err);
       cb(err, null);
@@ -46,10 +47,7 @@ Airport.findAll = (cb) => {
 };
 
 Airport.findById = (id, cb) => {
-  let query =
-    'SELECT a.id, a.name, a.latitude, a.longitude, c.id as country_id, c.name as country FROM airport as a';
-  query += ' INNER JOIN country as c ON a.country_id = c.id';
-  query += ' WHERE a.id = ?';
+  let query = getQuery + ' WHERE a.id = ?';
   promisifiedQuery(query, [id], (err, res) => {
     if (err) {
       console.log('Error when get airport with id:' + id, err);
@@ -68,7 +66,6 @@ Airport.updateById = async (id, airport, cb) => {
     return;
   }
 
-  // Update
   let query =
     'UPDATE airport SET country_id = ?, name = ?, latitude = ?, longitude = ? WHERE id = ?';
   promisifiedQuery(

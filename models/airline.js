@@ -9,6 +9,9 @@ const Airline = function (airline) {
   this.country_id = airline.country_id;
 };
 
+let getQuery = 'SELECT a.id, a.name, c.name as country, c.id as country_id FROM airline as a';
+getQuery += ' INNER JOIN country as c ON a.country_id = c.id';
+
 Airline.create = async (newAirline, cb) => {
   let err = await checkIfInvalid(newAirline, null);
   if (err) {
@@ -29,9 +32,7 @@ Airline.create = async (newAirline, cb) => {
 };
 
 Airline.findAll = (cb) => {
-  let query = 'SELECT a.id, a.name, c.name as country, c.id as country_id FROM airline as a';
-  query += ' INNER JOIN country as c ON a.country_id = c.id';
-  promisifiedQuery(query, (err, res) => {
+  promisifiedQuery(getQuery, (err, res) => {
     if (err) {
       console.log('Error when get all airlines:', err);
       cb(err, null);
@@ -43,10 +44,7 @@ Airline.findAll = (cb) => {
 };
 
 Airline.findById = (id, cb) => {
-  let query = 'SELECT a.id, a.name, c.name as country, c.id as country_id FROM airline as a';
-  query += ' INNER JOIN country as c ON a.country_id = c.id';
-  query += ' WHERE a.id = ?';
-
+  let query = getQuery + ' WHERE a.id = ?';
   promisifiedQuery(query, [id], (err, res) => {
     if (err) {
       console.log('Error when get airline with id:' + id, err);
@@ -65,7 +63,6 @@ Airline.updateById = async (id, airline, cb) => {
     return;
   }
 
-  // Update
   let query = 'UPDATE airline SET country_id = ?, name = ? WHERE id = ?';
   promisifiedQuery(query, [airline.country_id, airline.name, id], (err, res) => {
     if (err) {
