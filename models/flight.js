@@ -5,12 +5,17 @@ const mySQLConnection = require('../db');
 const promisifiedQuery = util.promisify(mySQLConnection.query).bind(mySQLConnection);
 
 const Flight = function (flight) {
-  this.depart_time = flight.depart_time;
   this.airline_id = flight.airline_id;
   this.depart_from = flight.depart_from;
   this.landing_to = flight.landing_to;
-  this.flight_time_sec = flight.flight_time_sec;
 };
+
+let getQuery = ' SELECT f.id, al.name as airline, ap1.name as depart_airport,';
+getQuery += ' ap2.name as landing_airport, al.id as airline_id,';
+getQuery += ' ap1.id as depart_from, ap2.id as landing_to  FROM flight as f';
+getQuery += ' INNER JOIN airline as al ON f.airline_id = al.id';
+getQuery += ' INNER JOIN airport as ap1 ON f.depart_from = ap1.id';
+getQuery += ' INNER JOIN airport as ap2 ON f.landing_to = ap2.id';
 
 Flight.create = async (newFlight, cb) => {
   let err = await checkIfInvalid(newFlight);
@@ -32,13 +37,7 @@ Flight.create = async (newFlight, cb) => {
 };
 
 Flight.findAll = (cb) => {
-  let query = ' SELECT f.id, f.depart_time, al.name as airline, ap1.name as depart_from,';
-  query += ' ap2.name as landing_to, f.flight_time_sec FROM flight as f';
-  query += ' INNER JOIN airline as al ON f.airline_id = al.id';
-  query += ' INNER JOIN airport as ap1 ON f.depart_from = ap1.id';
-  query += ' INNER JOIN airport as ap2 ON f.landing_to = ap2.id';
-
-  promisifiedQuery(query, (err, res) => {
+  promisifiedQuery(getQuery, (err, res) => {
     if (err) {
       console.log('Error when get all flights:', err);
       cb(err, null);
@@ -50,12 +49,7 @@ Flight.findAll = (cb) => {
 };
 
 Flight.findById = (id, cb) => {
-  let query = ' SELECT f.id, f.depart_time, al.name as airline, ap1.name as depart_from,';
-  query += ' ap2.name as landing_to, f.flight_time_sec FROM flight as f';
-  query += ' INNER JOIN airline as al ON f.airline_id = al.id';
-  query += ' INNER JOIN airport as ap1 ON f.depart_from = ap1.id';
-  query += ' INNER JOIN airport as ap2 ON f.landing_to = ap2.id';
-  query += ' WHERE f.id = ?';
+  let query = getQuery + ' WHERE f.id = ?';
   promisifiedQuery(query, [id], (err, res) => {
     if (err) {
       console.log('Error when get flight with id:' + id, err);
@@ -63,6 +57,19 @@ Flight.findById = (id, cb) => {
       return;
     }
     console.log('Flight:', res);
+    cb(null, res);
+  });
+};
+
+Flight.findByAirportId = (id, cb) => {
+  let query = getQuery + ' WHERE f.depart_from = ? OR f.landing_to = ?';
+  promisifiedQuery(query, [id, id], (err, res) => {
+    if (err) {
+      console.log('Error when get flights by airport id:' + id, err);
+      cb(err, null);
+      return;
+    }
+    console.log('Flights:', res);
     cb(null, res);
   });
 };
@@ -75,18 +82,11 @@ Flight.updateById = async (id, flight, cb) => {
   }
 
   // Update
-  let query = 'UPDATE flight SET airline_id = ?, depart_time = ?, depart_from = ?, ';
-  query += 'landing_to = ?, flight_time_sec = ? WHERE id = ?';
+  let query = 'UPDATE flight SET airline_id = ?, depart_from = ?, ';
+  query += 'landing_to = ? WHERE id = ?';
   promisifiedQuery(
     query,
-    [
-      flight.airline_id,
-      flight.depart_time,
-      flight.depart_from,
-      flight.landing_to,
-      flight.flight_time_sec,
-      id,
-    ],
+    [flight.airline_id, flight.depart_from, flight.landing_to, id],
     (err, res) => {
       if (err) {
         console.log('Error when update flight:', err);

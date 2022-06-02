@@ -7,6 +7,7 @@ const flightController = require('../controllers/flight');
 app.post('/flight', flightController.validateRequest, flightController.create);
 app.get('/flight', flightController.findAll);
 app.get('/flight/:id', flightController.findById);
+app.get('/flight-of-airport/:id', flightController.findByAirportId);
 app.put('/flight/:id', flightController.validateRequest, flightController.updateById);
 app.delete('/flight/:id', flightController.deleteById);
 
