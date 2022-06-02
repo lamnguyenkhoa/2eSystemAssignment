@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
-import CountryTable from '../Components/CountryTable';
+import { Container, Row, Col, Table } from 'react-bootstrap';
 import { getCountries } from '../api';
+import FormModal from '../Components/FormModal';
+import DeleteModal from '../Components/DeleteModal';
 
 function AllCountry() {
   const [countries, setCountries] = useState([]);
@@ -14,15 +15,45 @@ function AllCountry() {
 
   return (
     <Container className="App">
-      <Row>
+      <Row style={{ margin: '5vh 0' }}>
         <Col>
-          <h1 style={{ margin: '20px 0' }}>All countries</h1>
+          <div style={{ display: 'flex', gap: '1vw', alignItems: 'center' }}>
+            <h1>All countries</h1>
+            <FormModal formType="Add" itemType="Country" />
+          </div>
         </Col>
       </Row>
       <Row>
         <Col>
-          <CountryTable items={countries} />
+          <Table responsive hover>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>ISO code</th>
+              </tr>
+            </thead>
+            <tbody>
+              {/* Map each country datarow  */}
+              {countries.map((item) => (
+                <tr key={item.id}>
+                  <th scope="row">{item.id}</th>
+                  <td>{item.name}</td>
+                  <td>{item.iso_code}</td>
+                  <td>
+                    <FormModal formType="Edit" itemType="Country" item={item} />
+                  </td>
+                  <td>
+                    <DeleteModal itemType="Country" item={item} />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
         </Col>
+      </Row>
+      <Row>
+        <Col></Col>
       </Row>
     </Container>
   );
