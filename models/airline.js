@@ -29,7 +29,7 @@ Airline.create = async (newAirline, cb) => {
 };
 
 Airline.findAll = (cb) => {
-  let query = 'SELECT a.id, a.name, c.name as country FROM airline as a';
+  let query = 'SELECT a.id, a.name, c.name as country, c.id as country_id FROM airline as a';
   query += ' INNER JOIN country as c ON a.country_id = c.id';
   promisifiedQuery(query, (err, res) => {
     if (err) {
@@ -43,7 +43,7 @@ Airline.findAll = (cb) => {
 };
 
 Airline.findById = (id, cb) => {
-  let query = 'SELECT a.id, a.name, c.name as country FROM airline as a';
+  let query = 'SELECT a.id, a.name, c.name as country, c.id as country_id FROM airline as a';
   query += ' INNER JOIN country as c ON a.country_id = c.id';
   query += ' WHERE a.id = ?';
 
