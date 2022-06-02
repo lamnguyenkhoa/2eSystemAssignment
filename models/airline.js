@@ -29,7 +29,8 @@ Airline.create = async (newAirline, cb) => {
 };
 
 Airline.findAll = (cb) => {
-  let query = 'SELECT * FROM airline';
+  let query = 'SELECT a.id, a.name, c.name as country FROM airline as a';
+  query += ' INNER JOIN country as c ON a.country_id = c.id';
   promisifiedQuery(query, (err, res) => {
     if (err) {
       console.log('Error when get all airlines:', err);
@@ -42,7 +43,10 @@ Airline.findAll = (cb) => {
 };
 
 Airline.findById = (id, cb) => {
-  let query = 'SELECT * FROM airline WHERE id = ?';
+  let query = 'SELECT a.id, a.name, c.name as country FROM airline as a';
+  query += ' INNER JOIN country as c ON a.country_id = c.id';
+  query += ' WHERE a.id = ?';
+
   promisifiedQuery(query, [id], (err, res) => {
     if (err) {
       console.log('Error when get airline with id:' + id, err);

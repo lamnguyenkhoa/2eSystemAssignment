@@ -31,7 +31,8 @@ Airport.create = async (newAirport, cb) => {
 };
 
 Airport.findAll = (cb) => {
-  let query = 'SELECT * FROM airport';
+  let query = 'SELECT a.id, a.name, a.latitude, a.longitude, c.name as country FROM airport as a';
+  query += ' INNER JOIN country as c ON a.country_id = c.id';
   promisifiedQuery(query, (err, res) => {
     if (err) {
       console.log('Error when get all airports:', err);
@@ -44,7 +45,9 @@ Airport.findAll = (cb) => {
 };
 
 Airport.findById = (id, cb) => {
-  let query = 'SELECT * FROM airport WHERE id = ?';
+  let query = 'SELECT a.id, a.name, a.latitude, a.longitude, c.name as country FROM airport as a';
+  query += ' INNER JOIN country as c ON a.country_id = c.id';
+  query += ' WHERE a.id = ?';
   promisifiedQuery(query, [id], (err, res) => {
     if (err) {
       console.log('Error when get airport with id:' + id, err);

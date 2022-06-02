@@ -32,7 +32,12 @@ Flight.create = async (newFlight, cb) => {
 };
 
 Flight.findAll = (cb) => {
-  let query = 'SELECT * FROM flight';
+  let query = ' SELECT f.id, f.depart_time, al.name as airline, ap1.name as depart_from,';
+  query += ' ap2.name as landing_to, f.flight_time_sec FROM flight as f';
+  query += ' INNER JOIN airline as al ON f.airline_id = al.id';
+  query += ' INNER JOIN airport as ap1 ON f.depart_from = ap1.id';
+  query += ' INNER JOIN airport as ap2 ON f.landing_to = ap2.id';
+
   promisifiedQuery(query, (err, res) => {
     if (err) {
       console.log('Error when get all flights:', err);
@@ -45,7 +50,12 @@ Flight.findAll = (cb) => {
 };
 
 Flight.findById = (id, cb) => {
-  let query = 'SELECT * FROM flight WHERE id = ?';
+  let query = ' SELECT f.id, f.depart_time, al.name as airline, ap1.name as depart_from,';
+  query += ' ap2.name as landing_to, f.flight_time_sec FROM flight as f';
+  query += ' INNER JOIN airline as al ON f.airline_id = al.id';
+  query += ' INNER JOIN airport as ap1 ON f.depart_from = ap1.id';
+  query += ' INNER JOIN airport as ap2 ON f.landing_to = ap2.id';
+  query += ' WHERE f.id = ?';
   promisifiedQuery(query, [id], (err, res) => {
     if (err) {
       console.log('Error when get flight with id:' + id, err);
