@@ -17,7 +17,7 @@ function AllCountry() {
     <Container className="App">
       <Row style={{ margin: '5vh 0' }}>
         <Col>
-          <div style={{ display: 'flex', gap: '1vw', alignItems: 'center' }}>
+          <div style={{ display: 'flex', gap: '5vw', alignItems: 'center' }}>
             <h1>All countries</h1>
             <FormModal formType="Add" itemType="Country" />
           </div>
@@ -51,9 +51,6 @@ function AllCountry() {
             </tbody>
           </Table>
         </Col>
-      </Row>
-      <Row>
-        <Col></Col>
       </Row>
     </Container>
   );
