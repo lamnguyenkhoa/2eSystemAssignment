@@ -11,7 +11,6 @@ function MyNavbar() {
           <Nav className="me-auto">
             <Nav.Link href="/airport">Airports</Nav.Link>
             <Nav.Link href="/airline">Airlines</Nav.Link>
-            <Nav.Link href="/flight">Flights</Nav.Link>
             <Nav.Link href="/country">Countries</Nav.Link>
           </Nav>
         </Navbar.Collapse>

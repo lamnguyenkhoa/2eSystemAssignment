@@ -65,6 +65,11 @@ export function getAirports() {
   return axios.get(endpoint).then((res) => res.data);
 }
 
+export function getAirportById(id) {
+  let endpoint = '/api/airport/' + id;
+  return axios.get(endpoint).then((res) => res.data);
+}
+
 export function addAirports(airport) {
   let endpoint = '/api/airport';
   return axios.post(endpoint, toString(airport)).then((res) => res.data);
@@ -84,6 +89,11 @@ export function deleteAirportsById(id) {
 
 export function getFlights() {
   let endpoint = '/api/flight';
+  return axios.get(endpoint).then((res) => res.data);
+}
+
+export function getFlightsAssociateWithAirportId(id) {
+  let endpoint = '/api/flight-of-airport/' + id;
   return axios.get(endpoint).then((res) => res.data);
 }
 

@@ -5,8 +5,8 @@ import MyNavbar from './Components/MyNavbar';
 import AllCountry from './Pages/AllCountry';
 import AllAirline from './Pages/AllAirline';
 import AllAirport from './Pages/AllAirport';
-import AllFlight from './Pages/AllFlight';
 import Home from './Pages/Home';
+import AirportDetail from './Pages/AirportDetail';
 
 const App = () => {
   return (
@@ -17,7 +17,7 @@ const App = () => {
         <Route exact path="/country" element={<AllCountry />} />
         <Route exact path="/airline" element={<AllAirline />} />
         <Route exact path="/airport" element={<AllAirport />} />
-        <Route exact path="/flight" element={<AllFlight />} />
+        <Route exact path="/airport/:id" element={<AirportDetail />} />
       </Routes>
     </Router>
   );
