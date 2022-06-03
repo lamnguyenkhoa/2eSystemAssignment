@@ -14,15 +14,44 @@ function FormModal(props) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  // Pick a form format depend on itemType
   let form = '';
   if (props.itemType === 'Country')
-    form = <CountryForm setShow={setShow} item={props.item} formType={props.formType} />;
+    form = (
+      <CountryForm
+        setShow={setShow}
+        setReload={props.setReload}
+        item={props.item}
+        formType={props.formType}
+      />
+    );
   else if (props.itemType === 'Airline')
-    form = <AirlineForm setShow={setShow} item={props.item} formType={props.formType} />;
+    form = (
+      <AirlineForm
+        setShow={setShow}
+        setReload={props.setReload}
+        item={props.item}
+        formType={props.formType}
+      />
+    );
   else if (props.itemType === 'Airport')
-    form = <AirportForm setShow={setShow} item={props.item} formType={props.formType} />;
+    form = (
+      <AirportForm
+        setShow={setShow}
+        setReload={props.setReload}
+        item={props.item}
+        formType={props.formType}
+      />
+    );
   else if (props.itemType === 'Flight')
-    form = <FlightForm setShow={setShow} item={props.item} formType={props.formType} />;
+    form = (
+      <FlightForm
+        setShow={setShow}
+        setReload={props.setReload}
+        item={props.item}
+        formType={props.formType}
+      />
+    );
 
   let button = '';
   if (props.formType === 'Add')

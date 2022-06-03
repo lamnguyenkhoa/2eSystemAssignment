@@ -33,7 +33,7 @@ function AirlineForm(props) {
       if (props.formType === 'Add') addAirline(airline);
       if (props.formType === 'Edit') updateAirlineById(airline, airline.id);
       props.setShow(false);
-      window.location.reload();
+      props.setReload(true);
     }
     setValidated(true);
     console.log(airline);

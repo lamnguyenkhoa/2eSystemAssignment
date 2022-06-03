@@ -52,7 +52,7 @@ function AirportForm(props) {
       if (props.formType === 'Add') addAirports(airport);
       if (props.formType === 'Edit') updateAirportsById(airport, airport.id);
       props.setShow(false);
-      window.location.reload();
+      props.setReload(true);
     }
     setValidated(true);
     console.log(airport);

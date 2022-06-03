@@ -21,7 +21,7 @@ function DeleteModal(props) {
     deleteAPI(props.item.id).then((res) => {
       if (res.affectedRows === 1) {
         // Success
-        window.location.reload();
+        props.setReload(true);
       } else {
         // Failure
         alert(

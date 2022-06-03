@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Table, Button } from 'react-bootstrap';
+import { Container, Row, Col, Table } from 'react-bootstrap';
 import { getAirportById, getFlightsAssociateWithAirportId } from '../api';
 import FormModal from '../Components/FormModal';
 import DeleteModal from '../Components/DeleteModal';
@@ -8,12 +8,14 @@ function AirportDetail() {
   const [airport, setAirport] = useState({});
   const [departFlights, setDepartFlights] = useState([]);
   const [landingFlights, setLandingFlight] = useState([]);
+  const [reload, setReload] = useState(false);
 
   useEffect(() => {
     getAirportById(window.location.pathname.split('/')[2]).then((res) => {
       setAirport(res[0]);
+      setReload(false);
     });
-  }, []);
+  }, [reload]);
 
   useEffect(() => {
     getFlightsAssociateWithAirportId(airport.id).then((res) => {
@@ -27,7 +29,7 @@ function AirportDetail() {
       setDepartFlights(depart);
       setLandingFlight(landing);
     });
-  }, [airport.id]);
+  }, [airport]);
 
   return (
     <Container className="App">
@@ -35,8 +37,8 @@ function AirportDetail() {
         <Col style={{ padding: '0' }}>
           <div style={{ display: 'flex', gap: '3vw', alignItems: 'center' }}>
             <h1>Airport: {airport.name}</h1>
-            <FormModal formType="Add" itemType="Flight" />
-            <FormModal formType="Edit" itemType="Airport" item={airport} />
+            <FormModal formType="Add" itemType="Flight" setReload={setReload} />
+            <FormModal formType="Edit" itemType="Airport" setReload={setReload} item={airport} />
           </div>
         </Col>
       </Row>
@@ -65,10 +67,15 @@ function AirportDetail() {
                   <td>{item.depart_airport}</td>
                   <td>{item.landing_airport}</td>
                   <td>
-                    <FormModal formType="Edit" itemType="Flight" item={item} />
+                    <FormModal
+                      formType="Edit"
+                      itemType="Flight"
+                      setReload={setReload}
+                      item={item}
+                    />
                   </td>
                   <td>
-                    <DeleteModal itemType="Flight" item={item} />
+                    <DeleteModal itemType="Flight" setReload={setReload} item={item} />
                   </td>
                 </tr>
               ))}
@@ -102,10 +109,15 @@ function AirportDetail() {
                   <td>{item.depart_airport}</td>
                   <td>{item.landing_airport}</td>
                   <td>
-                    <FormModal formType="Edit" itemType="Flight" item={item} />
+                    <FormModal
+                      formType="Edit"
+                      setReload={setReload}
+                      itemType="Flight"
+                      item={item}
+                    />
                   </td>
                   <td>
-                    <DeleteModal itemType="Flight" item={item} />
+                    <DeleteModal itemType="Flight" setReload={setReload} item={item} />
                   </td>
                 </tr>
               ))}

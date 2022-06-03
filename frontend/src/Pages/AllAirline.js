@@ -6,12 +6,14 @@ import DeleteModal from '../Components/DeleteModal';
 
 function AllAirline() {
   const [airlines, setAirlines] = useState([]);
+  const [reload, setReload] = useState(false);
 
   useEffect(() => {
     getAirlines().then((res) => {
       setAirlines(res);
+      setReload(false);
     });
-  }, []);
+  }, [reload]);
 
   return (
     <Container className="App">
@@ -19,7 +21,7 @@ function AllAirline() {
         <Col>
           <div style={{ display: 'flex', gap: '3vw', alignItems: 'center' }}>
             <h1>All airlines</h1>
-            <FormModal formType="Add" itemType="Airline" />
+            <FormModal formType="Add" itemType="Airline" setReload={setReload} />
           </div>
         </Col>
       </Row>
@@ -41,10 +43,15 @@ function AllAirline() {
                   <td>{item.name}</td>
                   <td>{item.country}</td>
                   <td>
-                    <FormModal formType="Edit" itemType="Airline" item={item} />
+                    <FormModal
+                      formType="Edit"
+                      itemType="Airline"
+                      setReload={setReload}
+                      item={item}
+                    />
                   </td>
                   <td>
-                    <DeleteModal itemType="Airline" item={item} />
+                    <DeleteModal itemType="Airline" setReload={setReload} item={item} />
                   </td>
                 </tr>
               ))}

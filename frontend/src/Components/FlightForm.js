@@ -41,7 +41,6 @@ function FlightForm(props) {
   const handleSubmit = (event) => {
     const form = event.currentTarget;
     flightValidate();
-    console.log(sameAirportError);
     event.preventDefault();
     if (form.checkValidity() === false || flightValidate() === false) {
       // Failure
@@ -50,9 +49,9 @@ function FlightForm(props) {
       // Success
       if (props.formType === 'Add') addFlight(flight);
       if (props.formType === 'Edit') updateFlightById(flight, flight.id);
+      props.setReload(true);
       props.setShow(false);
       setValidated(true);
-      window.location.reload();
     }
     console.log(flight);
   };

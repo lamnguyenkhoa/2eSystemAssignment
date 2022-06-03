@@ -25,7 +25,7 @@ function CountryForm(props) {
       if (props.formType === 'Add') addCountry(country);
       if (props.formType === 'Edit') updateCountryById(country, country.id);
       props.setShow(false);
-      window.location.reload();
+      props.setReload(true);
     }
     setValidated(true);
     console.log(country);

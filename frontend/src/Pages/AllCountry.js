@@ -6,12 +6,14 @@ import DeleteModal from '../Components/DeleteModal';
 
 function AllCountry() {
   const [countries, setCountries] = useState([]);
+  const [reload, setReload] = useState(false);
 
   useEffect(() => {
     getCountries().then((res) => {
       setCountries(res);
+      setReload(false);
     });
-  }, []);
+  }, [reload]);
 
   return (
     <Container className="App">
@@ -19,7 +21,7 @@ function AllCountry() {
         <Col>
           <div style={{ display: 'flex', gap: '3vw', alignItems: 'center' }}>
             <h1>All countries</h1>
-            <FormModal formType="Add" itemType="Country" />
+            <FormModal formType="Add" itemType="Country" setReload={setReload} />
           </div>
         </Col>
       </Row>
@@ -41,10 +43,15 @@ function AllCountry() {
                   <td>{item.name}</td>
                   <td>{item.iso_code}</td>
                   <td>
-                    <FormModal formType="Edit" itemType="Country" item={item} />
+                    <FormModal
+                      formType="Edit"
+                      itemType="Country"
+                      setReload={setReload}
+                      item={item}
+                    />
                   </td>
                   <td>
-                    <DeleteModal itemType="Country" item={item} />
+                    <DeleteModal itemType="Country" setReload={setReload} item={item} />
                   </td>
                 </tr>
               ))}
