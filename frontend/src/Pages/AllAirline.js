@@ -3,17 +3,39 @@ import { Container, Row, Col, Table } from 'react-bootstrap';
 import { getAirlines } from '../api';
 import FormModal from '../Components/FormModal';
 import DeleteModal from '../Components/DeleteModal';
+import LoadingTable from '../Components/LoadingTable';
 
 function AllAirline() {
   const [airlines, setAirlines] = useState([]);
   const [reload, setReload] = useState(false);
+  const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
     getAirlines().then((res) => {
       setAirlines(res);
+      setLoading(false);
       setReload(false);
     });
   }, [reload]);
+
+  let tableData = <LoadingTable col={3} />;
+
+  if (!isLoading) {
+    // Map each airline datarow
+    tableData = airlines.map((item) => (
+      <tr key={item.id}>
+        <th scope="row">{item.id}</th>
+        <td>{item.name}</td>
+        <td>{item.country}</td>
+        <td>
+          <FormModal formType="Edit" itemType="Airline" setReload={setReload} item={item} />
+        </td>
+        <td>
+          <DeleteModal itemType="Airline" setReload={setReload} item={item} />
+        </td>
+      </tr>
+    ));
+  }
 
   return (
     <Container className="App">
@@ -35,27 +57,7 @@ function AllAirline() {
                 <th>Country</th>
               </tr>
             </thead>
-            <tbody>
-              {/* Map each airline datarow  */}
-              {airlines.map((item) => (
-                <tr key={item.id}>
-                  <th scope="row">{item.id}</th>
-                  <td>{item.name}</td>
-                  <td>{item.country}</td>
-                  <td>
-                    <FormModal
-                      formType="Edit"
-                      itemType="Airline"
-                      setReload={setReload}
-                      item={item}
-                    />
-                  </td>
-                  <td>
-                    <DeleteModal itemType="Airline" setReload={setReload} item={item} />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
+            <tbody>{tableData}</tbody>
           </Table>
         </Col>
       </Row>

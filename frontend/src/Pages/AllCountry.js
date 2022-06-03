@@ -3,17 +3,39 @@ import { Container, Row, Col, Table } from 'react-bootstrap';
 import { getCountries } from '../api';
 import FormModal from '../Components/FormModal';
 import DeleteModal from '../Components/DeleteModal';
+import LoadingTable from '../Components/LoadingTable';
 
 function AllCountry() {
   const [countries, setCountries] = useState([]);
   const [reload, setReload] = useState(false);
+  const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
     getCountries().then((res) => {
       setCountries(res);
+      setLoading(false);
       setReload(false);
     });
   }, [reload]);
+
+  let tableData = <LoadingTable col={3} />;
+
+  if (!isLoading) {
+    // Map each airline datarow
+    tableData = countries.map((item) => (
+      <tr key={item.id}>
+        <th scope="row">{item.id}</th>
+        <td>{item.name}</td>
+        <td>{item.iso_code}</td>
+        <td>
+          <FormModal formType="Edit" itemType="Country" setReload={setReload} item={item} />
+        </td>
+        <td>
+          <DeleteModal itemType="Country" setReload={setReload} item={item} />
+        </td>
+      </tr>
+    ));
+  }
 
   return (
     <Container className="App">
@@ -35,27 +57,7 @@ function AllCountry() {
                 <th>ISO code</th>
               </tr>
             </thead>
-            <tbody>
-              {/* Map each country datarow  */}
-              {countries.map((item) => (
-                <tr key={item.id}>
-                  <th scope="row">{item.id}</th>
-                  <td>{item.name}</td>
-                  <td>{item.iso_code}</td>
-                  <td>
-                    <FormModal
-                      formType="Edit"
-                      itemType="Country"
-                      setReload={setReload}
-                      item={item}
-                    />
-                  </td>
-                  <td>
-                    <DeleteModal itemType="Country" setReload={setReload} item={item} />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
+            <tbody>{tableData}</tbody>
           </Table>
         </Col>
       </Row>

@@ -3,17 +3,20 @@ import { Container, Row, Col, Table } from 'react-bootstrap';
 import { getAirportById, getFlightsAssociateWithAirportId } from '../api';
 import FormModal from '../Components/FormModal';
 import DeleteModal from '../Components/DeleteModal';
+import LoadingTable from '../Components/LoadingTable';
 
 function AirportDetail() {
   const [airport, setAirport] = useState({});
   const [departFlights, setDepartFlights] = useState([]);
   const [landingFlights, setLandingFlight] = useState([]);
   const [reload, setReload] = useState(false);
+  const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
     getAirportById(window.location.pathname.split('/')[2]).then((res) => {
       setAirport(res[0]);
       setReload(false);
+      setLoading(false);
     });
   }, [reload]);
 
@@ -30,6 +33,43 @@ function AirportDetail() {
       setLandingFlight(landing);
     });
   }, [airport]);
+
+  let departTableData = <LoadingTable col={4} />;
+
+  let landingTableData = <LoadingTable col={4} />;
+
+  if (!isLoading) {
+    // Map each flight datarow
+    departTableData = departFlights.map((item) => (
+      <tr key={item.id}>
+        <th scope="row">{item.id}</th>
+        <td>{item.airline}</td>
+        <td>{item.depart_airport}</td>
+        <td>{item.landing_airport}</td>
+        <td>
+          <FormModal formType="Edit" itemType="Flight" setReload={setReload} item={item} />
+        </td>
+        <td>
+          <DeleteModal itemType="Flight" setReload={setReload} item={item} />
+        </td>
+      </tr>
+    ));
+
+    landingTableData = landingFlights.map((item) => (
+      <tr key={item.id}>
+        <th scope="row">{item.id}</th>
+        <td>{item.airline}</td>
+        <td>{item.depart_airport}</td>
+        <td>{item.landing_airport}</td>
+        <td>
+          <FormModal formType="Edit" setReload={setReload} itemType="Flight" item={item} />
+        </td>
+        <td>
+          <DeleteModal itemType="Flight" setReload={setReload} item={item} />
+        </td>
+      </tr>
+    ));
+  }
 
   return (
     <Container className="App">
@@ -58,28 +98,7 @@ function AirportDetail() {
                 <th>Landing to</th>
               </tr>
             </thead>
-            <tbody>
-              {/* Map each depart flight datarow  */}
-              {departFlights.map((item) => (
-                <tr key={item.id}>
-                  <th scope="row">{item.id}</th>
-                  <td>{item.airline}</td>
-                  <td>{item.depart_airport}</td>
-                  <td>{item.landing_airport}</td>
-                  <td>
-                    <FormModal
-                      formType="Edit"
-                      itemType="Flight"
-                      setReload={setReload}
-                      item={item}
-                    />
-                  </td>
-                  <td>
-                    <DeleteModal itemType="Flight" setReload={setReload} item={item} />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
+            <tbody>{departTableData}</tbody>
           </Table>
         </Col>
       </Row>
@@ -100,28 +119,7 @@ function AirportDetail() {
                 <th>Landing to</th>
               </tr>
             </thead>
-            <tbody>
-              {/* Map each depart flight datarow  */}
-              {landingFlights.map((item) => (
-                <tr key={item.id}>
-                  <th scope="row">{item.id}</th>
-                  <td>{item.airline}</td>
-                  <td>{item.depart_airport}</td>
-                  <td>{item.landing_airport}</td>
-                  <td>
-                    <FormModal
-                      formType="Edit"
-                      setReload={setReload}
-                      itemType="Flight"
-                      item={item}
-                    />
-                  </td>
-                  <td>
-                    <DeleteModal itemType="Flight" setReload={setReload} item={item} />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
+            <tbody>{landingTableData}</tbody>
           </Table>
         </Col>
       </Row>
