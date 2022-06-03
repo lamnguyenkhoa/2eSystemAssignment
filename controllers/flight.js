@@ -106,8 +106,6 @@ function validateRequest(req, res, next) {
   req.body.depart_from = Number(req.body.depart_from.trim());
   req.body.landing_to = Number(req.body.landing_to.trim());
 
-  // TODO: Check for SQL injection
-
   // Check correct data type
   if (!Number.isInteger(req.body.airline_id) || req.body.flight_time_sec < 0) {
     res.status(400).send({

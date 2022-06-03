@@ -88,7 +88,6 @@ function validateRequest(req, res, next) {
   // Sanitize
   req.body.name = req.body.name.trim();
   req.body.country_id = req.body.country_id.trim();
-  //TODO: Check for SQL injection
 
   // Validate range
   const num = Number(req.body.country_id);

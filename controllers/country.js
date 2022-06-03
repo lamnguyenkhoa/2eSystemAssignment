@@ -88,7 +88,6 @@ function validateRequest(req, res, next) {
   // Sanitize
   req.body.name = req.body.name.trim();
   req.body.iso_code = req.body.iso_code.trim();
-  //TODO: Check for SQL injection
 
   return next();
 }

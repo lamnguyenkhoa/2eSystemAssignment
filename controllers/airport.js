@@ -108,7 +108,6 @@ function validateRequest(req, res, next) {
   let floatLongitude = parseFloat(req.body.longitude).toFixed(6);
   req.body.latitude = floatLatitude;
   req.body.longitude = floatLongitude;
-  // TODO: Check for SQL injection
 
   // Check correct data type
   if (!Number.isInteger(req.body.country_id) || req.body.country_id < 0) {
