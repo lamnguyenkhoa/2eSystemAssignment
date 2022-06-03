@@ -21,7 +21,7 @@ function AllAirport() {
   let tableData = <LoadingTable col={5} />;
 
   if (!isLoading) {
-    // Map each airline datarow
+    // Map each airport datarow
     tableData = airports.map((item) => (
       <tr key={item.id}>
         <th scope="row">{item.id}</th>

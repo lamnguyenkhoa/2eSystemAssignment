@@ -8,6 +8,7 @@ function LoadingTable(props) {
     </Spinner>
   );
 
+  // Add loading indicator (spinner) depend on number of columns of table
   var rows = [];
   for (var i = 0; i < props.col - 1; i++) {
     rows[i] = <td>{spinner}</td>;

@@ -21,7 +21,7 @@ function AllCountry() {
   let tableData = <LoadingTable col={3} />;
 
   if (!isLoading) {
-    // Map each airline datarow
+    // Map each country datarow
     tableData = countries.map((item) => (
       <tr key={item.id}>
         <th scope="row">{item.id}</th>
