@@ -6,6 +6,32 @@ There are 4 tables in the database: Airport, Airline, Country and Flight.
 
 Stack: React, Bootstrap, ExpressJS, SQL, GoogleMap API
 
+## Installation
+
+Add `.env` files to the project and fill in neccessary information into it.
+
+You can run these in the terminal:
+
+### Core commands
+
+#### `npm install` at root and frontend folder
+
+To install the neccessary dependencies. Remember to do this in both root folder and `/frontend` folder.
+
+#### `npm run build` at frontend folder
+
+To build static files.
+
+#### `npm start` at frontend folder
+
+To start the frontend.
+
+#### `npm run dev` at root folder
+
+To runs the server backend in the development mode.
+
+After run all above commands (ideally in 2 terminals, one for frontend and one for backend), it should open a new web window at `localhost:3000` and displayed some frontpage content there.
+
 ## Deployed link
 
 <https://assignment-2esystem.herokuapp.com/>
