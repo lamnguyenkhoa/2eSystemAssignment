@@ -10,6 +10,8 @@ Stack: React, Bootstrap, ExpressJS, SQL, GoogleMap API
 
 <https://assignment-2esystem.herokuapp.com/>
 
+Note: If the table data don't change, try to refresh the webpage.
+
 ## .env file
 
 There are 2 `.env` files. One frontend `.env` file in `/frontend` folder (same level as `App.js` and `App.css`) and another backend `.env` file at root folder (same level as `server.js` and `Procfile`)
