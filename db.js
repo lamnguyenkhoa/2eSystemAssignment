@@ -1,18 +1,18 @@
 const mysql = require('mysql2');
 
 const env = process.env.NODE_ENV || 'dev';
-let connection;
+let connectionPool;
 
 // Create a connection to the database
 if (env === 'dev') {
-  connection = mysql.createPool({
+  connectionPool = mysql.createPool({
     host: process.env.DEV_HOST,
     user: process.env.DEV_USER,
     password: process.env.DEV_PASSWORD,
     database: process.env.DEV_DB,
   });
 } else if (env === 'production') {
-  connection = mysql.createPool({
+  connectionPool = mysql.createPool({
     host: process.env.PROD_HOST,
     user: process.env.PROD_USER,
     password: process.env.PROD_PASSWORD,
@@ -21,9 +21,9 @@ if (env === 'dev') {
 }
 
 // open the MySQL connection
-connection.connect((error) => {
-  if (error) throw error;
+connectionPool.getConnection((err) => {
+  if (err) throw err;
   console.log('Successfully connected to the database.');
 });
 
-module.exports = connection;
+module.exports = connectionPool;
